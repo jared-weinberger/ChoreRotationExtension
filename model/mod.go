@@ -1,7 +1,6 @@
 package model
 
-type Collaborator struct {
-	Id    string
-	Name  string
-	Email string
+type Collaborator interface {
+	GetName() string
+	GetEmail() string
 }
