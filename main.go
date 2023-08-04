@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/jared-weinberger/ChoreRotationExtension/api"
+	"github.com/jared-weinberger/ChoreRotationExtension/store"
 	"github.com/joho/godotenv"
 	"github.com/rs/zerolog/log"
 )
@@ -22,4 +23,5 @@ func main() {
 		log.Fatal().Err(err).Msg("Error getting collaborators")
 	}
 	log.Info().Interface("collaborators", collaborators).Msg("Collaborators successfully fetched")
+	log.Info().Msg(store.PUT_USER)
 }
