@@ -16,7 +16,8 @@ fragment AMONG: 'among';
 PREAMBLE: ROTATES WHITESPACE AMONG;
 UNKNOWN: 'unknown';
 // USERNAME_SOLID: [a-z0-9._@\-!]+; USERNAME: USERNAME_SOLID+;
-USERNAME: 'foo' | 'bar' | 'foobar';
+USER_WORD: [a-z]+;
+USERNAME: USER_WORD (WHITESPACE USER_WORD)*;
 USER_ID: [0-9]+;
 
 // Separator = CommaSeparator | "\n"
