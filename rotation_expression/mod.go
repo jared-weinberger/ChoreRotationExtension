@@ -2,6 +2,7 @@ package rotationexpression
 
 import (
 	"errors"
+	"fmt"
 	"regexp"
 
 	"github.com/antlr4-go/antlr/v4"
@@ -27,13 +28,17 @@ func Foo(taskBody string) error {
 	if expressionBeginnings == nil {
 		return errors.New("No rotation expression found!")
 	}
-	for start, _ := range expressionBeginnings {
-		input := antlr.NewInputStream(taskBody[start:])
-		lexer := parsing.NewRotationExpressionLexer(input)
-		stream := antlr.NewCommonTokenStream(lexer, 0)
-		expression_parser := parsing.NewRotationExpressionParser(stream)
-		expression_parser.AddErrorListener(antlr.NewDiagnosticErrorListener(true))
-		expression_parser.BuildParseTrees = true
+	fmt.Println(expressionBeginnings)
+	input := antlr.NewInputStream(taskBody)
+	lexer := parsing.NewRotationExpressionLexer(input)
+	stream := antlr.NewCommonTokenStream(lexer, 0)
+	expression_parser := parsing.NewRotationExpressionParser(stream)
+	expression_parser.AddErrorListener(antlr.NewDiagnosticErrorListener(true))
+	expression_parser.BuildParseTrees = true
+	for _, expr := range expressionBeginnings {
+		fmt.Printf("\"%v\"\n", expr)
+		expressionStart := expr[0]
+		input.Seek(expressionStart)
 		tree := expression_parser.RotationExpression()
 		antlr.ParseTreeWalkerDefault.Walk(newAppRotationExpressionListener(), tree)
 	}
