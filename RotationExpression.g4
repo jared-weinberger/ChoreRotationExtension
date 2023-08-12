@@ -2,34 +2,26 @@ grammar RotationExpression;
 options {
 	caseInsensitive = true;
 }
-
-rotationExpression: PREAMBLE ':'? WHITESPACE userList EOF;
-userList: userSpec (',' WHITESPACE userSpec)*;
+rotationExpression:
+	inlineRotationExpression
+	| multilineRotationExpression;
+inlineRotationExpression:
+	PREAMBLE ':'? WHITESPACE inlineUserList EOF;
+inlineUserList: userSpec (',' WHITESPACE userSpec)*;
+multilineRotationExpression:
+	PREAMBLE ':' WHITESPACE? multilineUserList;
+multilineUserList: multilineUserLine+;
+multilineUserLine: MULTILINE_SEP userSpec WHITESPACE?;
 userSpec: partialUserSpec | unknownUser | completeUserSpec;
+username: USERNAME_PART (WHITESPACE USERNAME_PART)*;
 unknownUser: UNKNOWN;
-partialUserSpec: USERNAME;
-completeUserSpec: USERNAME WHITESPACE '(' USER_ID ')';
-
+partialUserSpec: username;
+completeUserSpec: username WHITESPACE '(' USER_ID ')';
+MULTILINE_SEP: '\n' ( '-' | '*') WHITESPACE;
 WHITESPACE: ' '+;
 fragment ROTATES: 'rotates';
 fragment AMONG: 'among';
 PREAMBLE: ROTATES WHITESPACE AMONG;
 UNKNOWN: 'unknown';
-// USERNAME_SOLID: [a-z0-9._@\-!]+; USERNAME: USERNAME_SOLID+;
-USER_WORD: [a-z]+;
-USERNAME: USER_WORD (WHITESPACE USER_WORD)*;
 USER_ID: [0-9]+;
-
-// Separator = CommaSeparator | "\n"
-
-// CommaSeparator = "," " "*
-
-// Space = "  " (Space | "")
-
-// OptionalSpace = "" | Space
-
-// AnySpace = " " | "\n" |
-
-// UserRef = "unknown" | PartialUserSpec | CompleteUserSpec
-
-// PartialUserRef = AlphaNum AlphaNum | Space | "." | "-" | "@" | "." | "-" | "@"
+USERNAME_PART: [a-z0-9._@\-!]+;
