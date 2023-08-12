@@ -1,3 +1,3 @@
-select email, name
+select id, name, email
 from users 
-where email = ?
+where id = ?

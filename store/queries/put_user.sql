@@ -1,4 +1,4 @@
-insert into users (email, name)
-values (?, ?)
-on conflict(email)
+insert into users (id, name, email)
+values (?, ?, ?)
+on conflict(id)
 do update set name = excluded.name

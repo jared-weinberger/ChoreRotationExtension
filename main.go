@@ -4,7 +4,7 @@ import (
 	"os"
 
 	"github.com/jared-weinberger/ChoreRotationExtension/api"
-	"github.com/jared-weinberger/ChoreRotationExtension/store"
+	rotationexpression "github.com/jared-weinberger/ChoreRotationExtension/rotation_expression"
 	"github.com/joho/godotenv"
 	"github.com/rs/zerolog/log"
 )
@@ -23,5 +23,5 @@ func main() {
 		log.Fatal().Err(err).Msg("Error getting collaborators")
 	}
 	log.Info().Interface("collaborators", collaborators).Msg("Collaborators successfully fetched")
-	log.Info().Msg(store.PUT_USER)
+	rotationexpression.Foo(`adslfkjalsd; asdflkja rotates among jared, paul, thomas`)
 }
