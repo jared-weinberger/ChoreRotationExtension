@@ -18,7 +18,7 @@ func MakeClient(baseUrl string, token string) *TodoistClient {
 	return &TodoistClient{baseUrl: baseUrl, token: token}
 }
 
-type todoistCollaborator struct {
+type TodoistCollaborator struct {
 	Id    string `json:"id"`
 	Name  string `json:"name"`
 	Email string `json:"email"`
@@ -43,23 +43,19 @@ func MakeEntityFromResponse[T any](res *http.Response, entity *T) error {
 	if bodyerr != nil {
 		return bodyerr
 	}
-	jsonerr := json.Unmarshal(buffer.Bytes(), entity)
-	if jsonerr != nil {
-		return jsonerr
-	}
-	return nil
+	return json.Unmarshal(buffer.Bytes(), entity)
 }
 
-func (client *TodoistClient) GetProjectCollaborators(project_id string) ([]todoistCollaborator, error) {
-	path := fmt.Sprintf("/projects/%s/collaborators", project_id)
+func (client *TodoistClient) GetProjectCollaborators(projectId string) ([]TodoistCollaborator, error) {
+	path := fmt.Sprintf("/projects/%s/collaborators", projectId)
 	res, err := client.sendRequest("GET", path, nil)
 	if err != nil {
 		return nil, err
 	}
 	if res.StatusCode != 200 {
-		return nil, fmt.Errorf("Request failed with status code %d", res.StatusCode)
+		return nil, fmt.Errorf("request failed with status code %d", res.StatusCode)
 	}
-	var collaborators []todoistCollaborator
+	var collaborators []TodoistCollaborator
 	err = MakeEntityFromResponse(res, &collaborators)
 	if err != nil {
 		return nil, err
