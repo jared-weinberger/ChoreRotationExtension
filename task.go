@@ -16,7 +16,7 @@ type taskBodyScraper struct {
 }
 
 func NewScraper() taskBodyScraper {
-	rotatesPhraseMatcher := regexp.MustCompile(`(?i)rotates +among +(.+)$`)
+	rotatesPhraseMatcher := regexp.MustCompile(`(?i)rotates:\s+(.+)$`)
 	nameWithEmailMatcher := regexp.MustCompile(`^(?i)(.+\S)\s+\((\S+@\S+)\)$`)
 	return taskBodyScraper{
 		rotatesPhraseMatcher: rotatesPhraseMatcher,

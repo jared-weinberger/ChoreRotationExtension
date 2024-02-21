@@ -53,7 +53,8 @@ func (client *TodoistClient) GetProjectCollaborators(projectId string) ([]Todois
 		return nil, err
 	}
 	if res.StatusCode != 200 {
-		return nil, fmt.Errorf("request failed with status code %d", res.StatusCode)
+		errMsg, _ := io.ReadAll(res.Body)
+		return nil, fmt.Errorf("%s to %s failed with %d: %s", res.Request.Method, res.Request.URL, res.StatusCode, string(errMsg))
 	}
 	var collaborators []TodoistCollaborator
 	err = MakeEntityFromResponse(res, &collaborators)
